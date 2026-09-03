@@ -1,9 +1,195 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Hello meldi</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Saya</title>
+    <style>
+        /* === PENGATURAN WARNA & TEMA (Bisa kamu ubah) === */
+        :root {
+            --bg-color: #f0f8ff; /* Biru sangat muda untuk background */
+            --primary-blue: #2563eb; /* Biru utama */
+            --dark-blue: #1e3a8a; /* Biru gelap untuk teks/footer */
+            --accent-blue: #60a5fa; /* Biru terang untuk hover */
+            --text-color: #333333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* === ANIMASI === */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* === HEADER / HERO SECTION === */
+        header {
+            background: linear-gradient(135deg, var(--dark-blue), var(--primary-blue));
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        /* TAMPAT GANTI FOTO */
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            animation: floating 3s ease-in-out infinite; /* Animasi mengambang */
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #dbeafe;
+        }
+
+        /* === BAGIAN KONTEN (Tentang & Portofolio) === */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--dark-blue);
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .about-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        /* === GRID PORTOFOLIO === */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .portfolio-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Animasi saat kartu disorot mouse */
+        .portfolio-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 25px rgba(37, 99, 235, 0.2);
+        }
+
+        .portfolio-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #cbd5e1; /* Warna cadangan jika gambar kosong */
+        }
+
+        .portfolio-content {
+            padding: 20px;
+        }
+
+        .portfolio-content h3 {
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        /* === FOOTER === */
+        footer {
+            background-color: var(--dark-blue);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Halo, meldi</h1>
+
+    <header>
+        <img src="https://via.placeholder.com/200/cccccc/ffffff?text=Foto+Kamu" alt="Foto Profil" class="profile-img">
+        
+        <h1>Nama Lengkap Kamu</h1>
+        <p>Mahasiswa Teknik | Web Developer | Tech Enthusiast</p>
+    </header>
+
+    <div class="container">
+        <section class="about-section">
+            <h2>Tentang Saya</h2>
+            <p>Halo! Saya adalah seorang mahasiswa yang antusias dengan dunia teknologi, pemrograman, dan desain sistem. Saya suka memecahkan masalah logika dan sedang membangun berbagai proyek menarik. Selamat datang di portofolio digital saya!</p>
+        </section>
+
+        <section>
+            <h2>Proyek Portofolio</h2>
+            <div class="portfolio-grid">
+                
+                <div class="portfolio-card">
+                    <img src="https://via.placeholder.com/400x200/60a5fa/ffffff?text=Proyek+1" alt="Proyek 1" class="portfolio-img">
+                    <div class="portfolio-content">
+                        <h3>Nama Proyek 1</h3>
+                        <p>Deskripsi singkat tentang proyek pertama kamu. Apa yang kamu buat dan teknologi apa yang digunakan.</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-card">
+                    <img src="https://via.placeholder.com/400x200/60a5fa/ffffff?text=Proyek+2" alt="Proyek 2" class="portfolio-img">
+                    <div class="portfolio-content">
+                        <h3>Nama Proyek 2</h3>
+                        <p>Deskripsi singkat tentang proyek kedua kamu. Misalnya eksperimen koding atau desain sistem yang kamu kerjakan.</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-card">
+                    <img src="https://via.placeholder.com/400x200/60a5fa/ffffff?text=Proyek+3" alt="Proyek 3" class="portfolio-img">
+                    <div class="portfolio-content">
+                        <h3>Nama Proyek 3</h3>
+                        <p>Deskripsi singkat tentang proyek ketiga kamu. Tambahkan tautan jika ada hasil jadinya.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Nama Kamu. Dibuat dengan ❤️</p>
+    </footer>
+
 </body>
 </html>
