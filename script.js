@@ -1,6 +1,6 @@
 // === 1. EFEK TEKS MENGETIK OTOMATIS (TYPING EFFECT) ===
 const textElement = document.getElementById("typing-text");
-const words = ["Mahasiswa Teknik", "Web Developer", "Tech Enthusiast", "Creative Explorer"];
+const words = ["Mahasiswa REKAYASA SISTEM KOMPUTER", "Web Developer", "Tech Enthusiast", "Creative Explorer"];
 let wordIndex = 0;
 let charIndex = 0;
 let isDeleting = false;
