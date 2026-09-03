@@ -1,144 +1,11 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portofolio Saya</title>
-    <style>
-        /* === PENGATURAN WARNA & TEMA (Bisa kamu ubah) === */
-        :root {
-            --bg-color: #f0f8ff; /* Biru sangat muda untuk background */
-            --primary-blue: #2563eb; /* Biru utama */
-            --dark-blue: #1e3a8a; /* Biru gelap untuk teks/footer */
-            --accent-blue: #60a5fa; /* Biru terang untuk hover */
-            --text-color: #333333;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
-
-        /* === ANIMASI === */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-
-        /* === HEADER / HERO SECTION === */
-        header {
-            background: linear-gradient(135deg, var(--dark-blue), var(--primary-blue));
-            color: white;
-            text-align: center;
-            padding: 100px 20px;
-            animation: fadeInDown 1s ease-out;
-        }
-
-        /* TAMPAT GANTI FOTO */
-        .profile-img {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            animation: floating 3s ease-in-out infinite; /* Animasi mengambang */
-            margin-bottom: 20px;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            color: #dbeafe;
-        }
-
-        /* === BAGIAN KONTEN (Tentang & Portofolio) === */
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 50px 20px;
-        }
-
-        h2 {
-            text-align: center;
-            color: var(--dark-blue);
-            margin-bottom: 30px;
-            font-size: 2rem;
-        }
-
-        .about-section {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            margin-bottom: 50px;
-            text-align: center;
-        }
-
-        /* === GRID PORTOFOLIO === */
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .portfolio-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        /* Animasi saat kartu disorot mouse */
-        .portfolio-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 25px rgba(37, 99, 235, 0.2);
-        }
-
-        .portfolio-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background-color: #cbd5e1; /* Warna cadangan jika gambar kosong */
-        }
-
-        .portfolio-content {
-            padding: 20px;
-        }
-
-        .portfolio-content h3 {
-            color: var(--primary-blue);
-            margin-bottom: 10px;
-        }
-
-        /* === FOOTER === */
-        footer {
-            background-color: var(--dark-blue);
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 50px;
-        }
-    </style>
+   
 </head>
 <body>
 
@@ -190,6 +57,6 @@
     <footer>
         <p>&copy; ig gua gada yah</p>
     </footer>
-
+<script src="script.js"></script>
 </body>
 </html>
