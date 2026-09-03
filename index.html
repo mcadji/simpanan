@@ -1,62 +1,336 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portofolio Saya</title>
-   
+    <title>Portofolioku</title>
+    <style>
+        /* === PENGATURAN DASAR & TEMA (BIRU MEGAH) === */
+        :root {
+            --bg-intro: #04091e; /* Biru sangat gelap untuk majesty */
+            --bg-main: #f0f8ff;  /* Biru sangat muda untuk konten */
+            --primary-blue: #1e40af; /* Biru utama konten */
+            --accent-gold: #fbbf24; /* Emas untuk kilaun */
+            --frame-color: #60a5fa; /* Biru muda bingkai */
+            --text-dark: #111827;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            overflow-x: hidden;
+            background-color: var(--bg-main);
+        }
+
+        /* === 1. ANIMASI & HIASAN UMUM === */
+        /* Hiasan pernak-pernik mengambang */
+        .decoration {
+            position: fixed;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.2), rgba(251, 191, 36, 0.1));
+            pointer-events: none;
+            z-index: -1;
+            animation: floatingOrnament 10s ease-in-out infinite;
+        }
+
+        @keyframes floatingOrnament {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.5; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* Teks Masuk Halus */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === 2. HALAMAN INTRO (TAMPILAN AWAL) === */
+        #intro-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #111827 0%, #04091e 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 9999;
+            transition: opacity 1s ease, visibility 1s;
+        }
+
+        /* Animasi Transisi Saat Pindah Halaman */
+        #intro-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #intro-screen h1 {
+            font-size: 3.5rem;
+            color: #93c5fd; /* Biru muda megah */
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 15px rgba(147, 197, 253, 0.7);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        #enter-btn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, var(--primary-blue), #3b82f6);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: fadeInUp 1s ease-out 0.5s both; /* Delay masuk */
+        }
+
+        #enter-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.6);
+        }
+
+        /* === 3. HALAMAN UTAMA (SETELAH DIPENCET) === */
+        #main-portfolio {
+            display: none; /* Sembunyi di awal */
+            opacity: 0;
+            transition: opacity 1s ease 0.5s; /* Delay muncul setelah intro pudar */
+        }
+
+        #main-portfolio.visible {
+            display: block;
+            opacity: 1;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        /* === A. NAMA BERKILAU (SHINING) === */
+        .shining-name {
+            font-size: 3rem;
+            margin-top: 20px;
+            /* Efek kilau gradasi */
+            background: linear-gradient(110deg, #1e40af 30%, #fbbf24 50%, #1e40af 70%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            /* Animasi kilaun bergerak terus */
+            animation: shineEffect 3s linear infinite;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        @keyframes shineEffect {
+            to { background-position: 200% center; }
+        }
+
+        /* === B. BINGKAI FOTO LUCU & INTERAKTIF === */
+        .photo-container {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .photo-container:hover {
+            transform: scale(1.05);
+        }
+
+        /* Bingkai berbentuk unik (Blobs/Bulat Lucu) */
+        .photo-frame {
+            position: absolute;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            background: linear-gradient(135deg, var(--frame-color), var(--accent-gold));
+            z-index: -1;
+            /* Bentuk lucu seperti awan/blob */
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            /* Efek cahaya berdenyut lucu di pinggiran */
+            animation: pulseFrame 2s ease-in-out infinite, blobMorphism 8s ease-in-out infinite;
+        }
+
+        .profile-img {
+            width: 220px;
+            height: 220px;
+            object-fit: cover;
+            /* Bentuk foto juga mengikuti bentuk lucu bingkai */
+            border-radius: inherit; 
+            border: 5px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        @keyframes pulseFrame {
+            0%, 100% { box-shadow: 0 0 15px rgba(96, 165, 250, 0.4); opacity: 0.9; }
+            50% { box-shadow: 0 0 30px rgba(96, 165, 250, 0.8), 0 0 10px rgba(251, 191, 36, 0.4); opacity: 1; }
+        }
+
+        /* Animasi bentuk bingkai yang sedikit berubah-ubah pelan (lucu) */
+        @keyframes blobMorphism {
+            0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            50% { border-radius: 60% 40% 30% 70% / 50% 60% 40% 60%; }
+        }
+
+        /* Tanda petunjuk klik foto */
+        .click-hint {
+            font-size: 0.8rem;
+            color: #718096;
+            margin-top: -5px;
+            animation: pulseHint 1.5s infinite;
+        }
+
+        @keyframes pulseHint {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* === 4. ISI KONTEN (TENTANG & PROYEK) === */
+        .about-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInUp 1s ease-out 1s both; /* Delay setelah header */
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            animation: fadeInUp 1s ease-out 1.5s both; /* Delay paling akhir */
+        }
+
+        .portfolio-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-10px) rotate(1deg); /* Rotasi dikit biar lucu */
+            box-shadow: 0 15px 35px rgba(30, 64, 175, 0.15);
+        }
+
+        .portfolio-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #cbd5e1;
+        }
+
+        .portfolio-content {
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
 
-    <header>
-        <img src="WhatsApp Image 2026-09-03 at 19.41.14.jpeg" alt="Foto Profil" class="profile-img">
-        
-        <h1>MUHAMMAD ADJI SUTAN TSAFIUDDIN</h1>
-        <p>Mahasiswa REKAYASA SISTEM KOMPUTER | Web Desain | Pemula</p>
-    </header>
+    <div class="decoration" style="width: 50px; height: 50px; top: 10%; left: 5%; animation-delay: 0s;"></div>
+    <div class="decoration" style="width: 30px; height: 30px; bottom: 15%; right: 10%; animation-delay: 2s;"></div>
+    <div class="decoration" style="width: 70px; height: 70px; top: 70%; left: -20px; background: rgba(251, 191, 36, 0.05); animation-delay: 4s;"></div>
 
-    <div class="container">
-        <section class="about-section">
-            <h2>Tentang Aku</h2>
-            <p>Hai keluarga, namaku muhammad adji sutan tsadiuddin bisa di panggil aji, aku tinggal di sungai rengas dan kalau di tanya kenapa aku kuliah di siskom? pertama aku awalnya di suruh orang tua ku karna menurut mereka peluang kerja dibidang IT itu tinggi dan aku juga pengen banggain mereka kan, jadi aku masuk dengan rasa sedikit terpaksa pada awalnya, seiring berjalannya waktu akupun merasa cocok di sini walau nilai ku tidak terlalu bagus, bahkan kalkulus aja ngulang :v, tapi aku akan tetap berusaha demi menggapai mimpi dan cita cita ku sebagai orang yang pandai berbisnis dan juga ahli di bidang it</p>
-        </section>
-
-        <section>
-            <h2>Proyek Portofolio</h2>
-            <div class="portfolio-grid">
-                
-                <div class="portfolio-card">
-                    <img src="https://via.placeholder.com/400x200/60a5fa/ffffff?text=Proyek+1" alt="Proyek 1" class="portfolio-img">
-                    <div class="portfolio-content">
-                        <h3>Nama Proyek 1</h3>
-                        <p>pernah membuat tong sampah otomatis semasa smk</p>
-                    </div>
-                </div>
-
-                <div class="portfolio-card">
-                    <img src="https://via.placeholder.com/400x200/60a5fa/ffffff?text=Proyek+2" alt="Proyek 2" class="portfolio-img">
-                    <div class="portfolio-content">
-                        <h3>Nama Proyek 2</h3>
-                        <p>pernah membuat aplikasi kecil kecilan seperti kalkulator, menghitung ipk mahasiswa semasa smk</p>
-                    </div>
-                </div>
-
-                <div class="portfolio-card">
-                    <img src="https://via.placeholder.com/400x200/60a5fa/ffffff?text=Proyek+3" alt="Proyek 3" class="portfolio-img">
-                    <div class="portfolio-content">
-                        <h3>Nama Proyek 3</h3>
-                        <p>otw ;v</p>
-                    </div>
-                </div>
-
-            </div>
-        </section>
+    <div id="intro-screen">
+        <h1>Selamat datang<br>di portofolio ku</h1>
+        <button id="enter-btn">Masuk</button>
     </div>
 
-    <footer>
-        <p>&copy; ig gua gada yah</p>
-    </footer>
-<script src="script.js"></script>
+    <main id="main-portfolio">
+        <div class="container">
+            <header>
+                <div class="photo-container" id="profile-pic-container">
+                    <div class="photo-frame"></div>
+                    <img src="foto1.jpeg" alt="Foto Profil" class="profile-img" id="profile-img-element">
+                </div>
+                <p class="click-hint">(Klik foto untuk ganti gambar)</p>
+                
+                <h1 class="shining-name">Nama Kamu Berkilau</h1>
+                <p>Mahasiswa Rekayasa Sistem Komputer | Web Desainer | Pemula</p>
+            </header>
+
+            <section class="about-section">
+                <h2>Tentang Kuh</h2>
+                <p>Hai keluarga, namaku muhammad adji sutan tsadiuddin bisa di panggil aji, aku tinggal di sungai rengas dan kalau di tanya kenapa aku kuliah di siskom? pertama aku awalnya di suruh orang tua ku karna menurut mereka peluang kerja dibidang IT itu tinggi dan aku juga pengen banggain mereka kan, jadi aku masuk dengan rasa sedikit terpaksa pada awalnya, seiring berjalannya waktu akupun merasa cocok di sini walau nilai ku tidak terlalu bagus, bahkan kalkulus aja ngulang :v, tapi aku akan tetap berusaha demi menggapai mimpi dan cita cita ku sebagai orang yang pandai berbisnis dan juga ahli di bidang IT</p>
+            </section>
+
+            <section>
+                <div class="portfolio-grid">
+                    <div class="portfolio-card">
+                        <img src="https://via.placeholder.com/400x200/1e40af/ffffff?text=Proyek+1" alt="Proyek 1" class="portfolio-img">
+                        <div class="portfolio-content">
+                            <h3>Nama Proyek 1</h3>
+                            <p>Membuat tong sampah otomatis saat smk</p>
+                        </div>
+                    </div>
+                    </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // === A. LOGIKA PERPINDAHAN HALAMAN ===
+        const enterBtn = document.getElementById('enter-btn');
+        const introScreen = document.getElementById('intro-screen');
+        const mainPortfolio = document.getElementById('main-portfolio');
+
+        enterBtn.addEventListener('click', () => {
+            // FADEOUT Intro
+            introScreen.classList.add('fade-out');
+            // FADEIN Main Content
+            mainPortfolio.classList.add('visible');
+            
+            // Setelah animasi pudar selesai, hapus total intro dari layar (biar ga ngeblok klik)
+            setTimeout(() => {
+                introScreen.style.display = 'none';
+            }, 1000); 
+        });
+
+        // === B. LOGIKA GANTI FOTO (5 SLOT) ===
+        const photoContainer = document.getElementById('profile-pic-container');
+        const profileImg = document.getElementById('profile-img-element');
+
+        // Ganti nama file ini sesuai dengan foto-foto yang kamu upload ke GitHub!
+        const imageSlots = [
+            'foto1.jpeg', 
+            'foto2.jpeg', 
+            'foto3.jpeg', 
+            'foto4.jpeg', 
+            'foto5.jpeg'
+        ];
+        let currentPhotoIndex = 0; // Mulai dari foto pertama (index 0)
+
+        photoContainer.addEventListener('click', () => {
+            // Tambahkan index
+            currentPhotoIndex++;
+
+            // Jika sudah di foto terakhir, kembali ke foto pertama (cycle)
+            if (currentPhotoIndex >= imageSlots.length) {
+                currentPhotoIndex = 0;
+            }
+
+            // Ganti src foto dengan foto berikutnya
+            profileImg.src = imageSlots[currentPhotoIndex];
+        });
+    </script>
 </body>
 </html>
