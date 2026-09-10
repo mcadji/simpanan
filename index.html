@@ -556,7 +556,7 @@
     /* Responsif untuk Smartphone */
     @media (max-width: 768px) {
       .hero-title { font-size: 2.5rem; }
-      .nav-links { display: none; } /* Sederhana untuk mobile */
+      .nav-links { display: none; }
       .profile-glow-ring { width: 250px; height: 250px; }
       .hero { text-align: center; }
       .btn-group { justify-content: center; }
@@ -578,7 +578,10 @@
       <li><a href="#projects">Proyek</a></li>
       <li><a href="#contact">Kontak</a></li>
     </ul>
-    <a href="#contact" class="btn-primary" style="padding: 8px 20px; font-size: 0.85rem;">Let's Talk</a>
+    <!-- Tombol Let's Talk langsung membuka Instagram adji_sts di tab baru -->
+    <a href="https://instagram.com/adji_sts" target="_blank" rel="noopener noreferrer" class="btn-primary" style="padding: 8px 20px; font-size: 0.85rem;">
+      <i class="fa-brands fa-instagram"></i> Let's Talk
+    </a>
   </nav>
 
   <!-- Hero Section -->
@@ -590,7 +593,7 @@
       </div>
       <h1 class="hero-title">
         Halo, Saya <br />
-        <span class="glow-text">Nama Anda</span>
+        <span class="glow-text">Adji</span>
       </h1>
       <div class="typing-box">
         Saya seorang <span id="typing-text"></span>
@@ -602,8 +605,8 @@
         <a href="#projects" class="btn-primary">
           <i class="fa-solid fa-rocket"></i> Lihat Proyek
         </a>
-        <a href="#contact" class="btn-secondary">
-          <i class="fa-solid fa-paper-plane"></i> Hubungi Saya
+        <a href="https://instagram.com/adji_sts" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+          <i class="fa-brands fa-instagram"></i> Hubungi Saya
         </a>
       </div>
     </div>
@@ -613,7 +616,7 @@
       <div class="profile-glow-ring">
         <div class="profile-img-container">
           <!-- 
-            GANTI LINK GAMBAR DI BAWAH INI DENGAN FOTO PROFILE ANDA:
+            GANTI LINK GAMBAR DI BAWAH DENGAN FOTO ANDA SENDIRI:
             Contoh lokal: src="foto-profil.jpg" 
           -->
           <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=80" alt="Foto Profil" />
@@ -735,7 +738,8 @@
       <div class="social-links">
         <a href="https://github.com" target="_blank" class="social-btn" title="GitHub"><i class="fa-brands fa-github"></i></a>
         <a href="https://linkedin.com" target="_blank" class="social-btn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="https://instagram.com" target="_blank" class="social-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <!-- Link Instagram adji_sts -->
+        <a href="https://instagram.com/adji_sts" target="_blank" rel="noopener noreferrer" class="social-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
         <a href="mailto:emailanda@gmail.com" class="social-btn" title="Email"><i class="fa-solid fa-envelope"></i></a>
       </div>
     </div>
@@ -743,7 +747,7 @@
 
   <!-- Footer -->
   <footer>
-    <p>&copy; 2026 Nama Anda. Dibuat dengan penuh kreativitas & semarak animasi.</p>
+    <p>&copy; 2026 Adji. Dibuat dengan penuh kreativitas & semarak animasi.</p>
   </footer>
 
   <!-- ==================== JAVASCRIPT EFECTS ==================== -->
@@ -836,7 +840,7 @@
         this.x += this.vx;
         this.y += this.vy;
 
-        // Pantul saat kena tepi layar
+        // Pantul saat kena batas layar
         if (this.x < 0 || this.x > width) this.vx *= -1;
         if (this.y < 0 || this.y > height) this.vy *= -1;
 
