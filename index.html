@@ -1,336 +1,894 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portofolioku</title>
-    <style>
-        /* === PENGATURAN DASAR & TEMA (BIRU MEGAH) === */
-        :root {
-            --bg-intro: #04091e; /* Biru sangat gelap untuk majesty */
-            --bg-main: #f0f8ff;  /* Biru sangat muda untuk konten */
-            --primary-blue: #1e40af; /* Biru utama konten */
-            --accent-gold: #fbbf24; /* Emas untuk kilaun */
-            --frame-color: #60a5fa; /* Biru muda bingkai */
-            --text-dark: #111827;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portofolio Keren & Futuristik</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-        body {
-            overflow-x: hidden;
-            background-color: var(--bg-main);
-        }
+  <style>
+    /* ==================== RESET & VARIABLES ==================== */
+    :root {
+      --bg-dark: #070913;
+      --card-bg: rgba(15, 23, 42, 0.65);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --primary-cyan: #00f2fe;
+      --primary-purple: #9d4edd;
+      --accent-glow: rgba(0, 242, 254, 0.35);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
 
-        /* === 1. ANIMASI & HIASAN UMUM === */
-        /* Hiasan pernak-pernik mengambang */
-        .decoration {
-            position: fixed;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(96, 165, 250, 0.2), rgba(251, 191, 36, 0.1));
-            pointer-events: none;
-            z-index: -1;
-            animation: floatingOrnament 10s ease-in-out infinite;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
 
-        @keyframes floatingOrnament {
-            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.5; }
-            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.8; }
-        }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-        /* Teks Masuk Halus */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    /* Background Canvas untuk efek partikel interaktif */
+    #particle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
 
-        /* === 2. HALAMAN INTRO (TAMPILAN AWAL) === */
-        #intro-screen {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: radial-gradient(circle at center, #111827 0%, #04091e 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            z-index: 9999;
-            transition: opacity 1s ease, visibility 1s;
-        }
+    /* ==================== NAVBAR ==================== */
+    nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 1100px;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 50px;
+      padding: 12px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    }
 
-        /* Animasi Transisi Saat Pindah Halaman */
-        #intro-screen.fade-out {
-            opacity: 0;
-            visibility: hidden;
-        }
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
 
-        #intro-screen h1 {
-            font-size: 3.5rem;
-            color: #93c5fd; /* Biru muda megah */
-            text-align: center;
-            margin-bottom: 30px;
-            text-shadow: 0 0 15px rgba(147, 197, 253, 0.7);
-            animation: fadeInUp 1s ease-out;
-        }
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
 
-        #enter-btn {
-            padding: 15px 40px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: white;
-            background: linear-gradient(135deg, var(--primary-blue), #3b82f6);
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
-            transition: transform 0.2s, box-shadow 0.2s;
-            animation: fadeInUp 1s ease-out 0.5s both; /* Delay masuk */
-        }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
 
-        #enter-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.6);
-        }
+    .nav-links a:hover {
+      color: var(--primary-cyan);
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
 
-        /* === 3. HALAMAN UTAMA (SETELAH DIPENCET) === */
-        #main-portfolio {
-            display: none; /* Sembunyi di awal */
-            opacity: 0;
-            transition: opacity 1s ease 0.5s; /* Delay muncul setelah intro pudar */
-        }
+    /* ==================== HERO SECTION ==================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 24px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 50px;
+      flex-wrap: wrap-reverse;
+    }
 
-        #main-portfolio.visible {
-            display: block;
-            opacity: 1;
-        }
+    .hero-content {
+      flex: 1 1 500px;
+    }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 80px 20px;
-        }
+    .badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      border-radius: 30px;
+      font-size: 0.85rem;
+      color: var(--primary-cyan);
+      margin-bottom: 20px;
+      animation: pulseGlow 2.5s infinite;
+    }
 
-        header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            margin-bottom: 60px;
-        }
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--primary-cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--primary-cyan);
+    }
 
-        /* === A. NAMA BERKILAU (SHINING) === */
-        .shining-name {
-            font-size: 3rem;
-            margin-top: 20px;
-            /* Efek kilau gradasi */
-            background: linear-gradient(110deg, #1e40af 30%, #fbbf24 50%, #1e40af 70%);
-            background-size: 200% auto;
-            color: transparent;
-            -webkit-background-clip: text;
-            background-clip: text;
-            /* Animasi kilaun bergerak terus */
-            animation: shineEffect 3s linear infinite;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-        }
+    .hero-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3.4rem;
+      line-height: 1.15;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
 
-        @keyframes shineEffect {
-            to { background-position: 200% center; }
-        }
+    .hero-title span.glow-text {
+      background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        /* === B. BINGKAI FOTO LUCU & INTERAKTIF === */
-        .photo-container {
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            margin-bottom: 10px;
-        }
+    .typing-box {
+      font-size: 1.3rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      min-height: 35px;
+      font-weight: 400;
+    }
 
-        .photo-container:hover {
-            transform: scale(1.05);
-        }
+    #typing-text {
+      color: #fff;
+      font-weight: 600;
+      border-right: 2px solid var(--primary-cyan);
+      padding-right: 4px;
+      animation: blink 0.75s step-end infinite;
+    }
 
-        /* Bingkai berbentuk unik (Blobs/Bulat Lucu) */
-        .photo-frame {
-            position: absolute;
-            top: -10px; left: -10px; right: -10px; bottom: -10px;
-            background: linear-gradient(135deg, var(--frame-color), var(--accent-gold));
-            z-index: -1;
-            /* Bentuk lucu seperti awan/blob */
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-            /* Efek cahaya berdenyut lucu di pinggiran */
-            animation: pulseFrame 2s ease-in-out infinite, blobMorphism 8s ease-in-out infinite;
-        }
+    .hero-desc {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 540px;
+    }
 
-        .profile-img {
-            width: 220px;
-            height: 220px;
-            object-fit: cover;
-            /* Bentuk foto juga mengikuti bentuk lucu bingkai */
-            border-radius: inherit; 
-            border: 5px solid white;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
+    .btn-group {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
 
-        @keyframes pulseFrame {
-            0%, 100% { box-shadow: 0 0 15px rgba(96, 165, 250, 0.4); opacity: 0.9; }
-            50% { box-shadow: 0 0 30px rgba(96, 165, 250, 0.8), 0 0 10px rgba(251, 191, 36, 0.4); opacity: 1; }
-        }
+    .btn-primary {
+      padding: 12px 28px;
+      background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
+      color: #050811;
+      font-weight: 700;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        /* Animasi bentuk bingkai yang sedikit berubah-ubah pelan (lucu) */
-        @keyframes blobMorphism {
-            0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-            50% { border-radius: 60% 40% 30% 70% / 50% 60% 40% 60%; }
-        }
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 0 35px rgba(0, 242, 254, 0.65);
+    }
 
-        /* Tanda petunjuk klik foto */
-        .click-hint {
-            font-size: 0.8rem;
-            color: #718096;
-            margin-top: -5px;
-            animation: pulseHint 1.5s infinite;
-        }
+    .btn-secondary {
+      padding: 12px 28px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      font-weight: 600;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        @keyframes pulseHint {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-3px);
+    }
 
-        /* === 4. ISI KONTEN (TENTANG & PROYEK) === */
-        .about-section {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            text-align: center;
-            margin-bottom: 60px;
-            animation: fadeInUp 1s ease-out 1s both; /* Delay setelah header */
-        }
+    /* ==================== PROFILE PHOTO WITH NEON RING ==================== */
+    .hero-image-wrapper {
+      flex: 1 1 350px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
 
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            animation: fadeInUp 1s ease-out 1.5s both; /* Delay paling akhir */
-        }
+    .profile-glow-ring {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-        .portfolio-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+    /* Animasi cincin neon luar */
+    .profile-glow-ring::before {
+      content: '';
+      position: absolute;
+      inset: -12px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--primary-cyan), var(--primary-purple), #ff007f, var(--primary-cyan));
+      animation: rotateGlow 5s linear infinite;
+      filter: blur(14px);
+      z-index: 1;
+      opacity: 0.85;
+    }
 
-        .portfolio-card:hover {
-            transform: translateY(-10px) rotate(1deg); /* Rotasi dikit biar lucu */
-            box-shadow: 0 15px 35px rgba(30, 64, 175, 0.15);
-        }
+    /* Bingkai foto profil */
+    .profile-img-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      z-index: 2;
+      border: 4px solid rgba(255, 255, 255, 0.15);
+      background: #111;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+      animation: floatAvatar 4s ease-in-out infinite alternate;
+    }
 
-        .portfolio-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background-color: #cbd5e1;
-        }
+    .profile-img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
 
-        .portfolio-content {
-            padding: 20px;
-        }
-    </style>
+    .profile-img-container:hover img {
+      transform: scale(1.08);
+    }
+
+    /* Floating mini badge */
+    .floating-badge {
+      position: absolute;
+      bottom: 10px;
+      right: 15px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 242, 254, 0.4);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 3;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    /* ==================== SECTION LAYOUT ==================== */
+    section {
+      padding: 90px 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 55px;
+    }
+
+    .section-header h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.3rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .section-header p {
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1rem;
+    }
+
+    /* ==================== SKILLS SECTION ==================== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+
+    .skill-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(10px);
+      padding: 30px 24px;
+      border-radius: 20px;
+      text-align: center;
+      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(0, 242, 254, 0.1) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--primary-cyan);
+      box-shadow: 0 10px 30px rgba(0, 242, 254, 0.2);
+    }
+
+    .skill-card:hover::after {
+      opacity: 1;
+    }
+
+    .skill-icon {
+      font-size: 2.8rem;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .skill-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+    }
+
+    .skill-card p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* ==================== PROJECTS SECTION ==================== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      transition: all 0.4s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(157, 78, 221, 0.6);
+      box-shadow: 0 15px 35px rgba(157, 78, 221, 0.25);
+    }
+
+    .project-thumb {
+      height: 190px;
+      background: #1e293b;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .project-card:hover .project-thumb img {
+      transform: scale(1.1);
+    }
+
+    .project-info {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .project-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      color: var(--primary-cyan);
+    }
+
+    .project-info h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+
+    .project-info p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    .project-links a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+
+    .project-links a:hover {
+      color: var(--primary-cyan);
+    }
+
+    /* ==================== CONTACT SECTION ==================== */
+    .contact-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 50px 30px;
+      text-align: center;
+      max-width: 750px;
+      margin: 0 auto;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.3rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .social-btn:hover {
+      background: var(--primary-cyan);
+      color: #000;
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    /* ==================== FOOTER ==================== */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--card-border);
+    }
+
+    /* ==================== ANIMATIONS ==================== */
+    @keyframes rotateGlow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes floatAvatar {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-12px); }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 10px rgba(0, 242, 254, 0.2); }
+      50% { box-shadow: 0 0 20px rgba(0, 242, 254, 0.5); }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    /* Responsif untuk Smartphone */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.5rem; }
+      .nav-links { display: none; } /* Sederhana untuk mobile */
+      .profile-glow-ring { width: 250px; height: 250px; }
+      .hero { text-align: center; }
+      .btn-group { justify-content: center; }
+      .hero-desc { margin: 0 auto 32px auto; }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="decoration" style="width: 50px; height: 50px; top: 10%; left: 5%; animation-delay: 0s;"></div>
-    <div class="decoration" style="width: 30px; height: 30px; bottom: 15%; right: 10%; animation-delay: 2s;"></div>
-    <div class="decoration" style="width: 70px; height: 70px; top: 70%; left: -20px; background: rgba(251, 191, 36, 0.05); animation-delay: 4s;"></div>
+  <!-- Canvas Background Efek Partikel -->
+  <canvas id="particle-canvas"></canvas>
 
-    <div id="intro-screen">
-        <h1>Selamat datang<br>di portofolio ku</h1>
-        <button id="enter-btn">Masuk</button>
+  <!-- Navbar -->
+  <nav>
+    <a href="#" class="logo">&lt;DEV /&gt;</a>
+    <ul class="nav-links">
+      <li><a href="#about">Tentang</a></li>
+      <li><a href="#skills">Keahlian</a></li>
+      <li><a href="#projects">Proyek</a></li>
+      <li><a href="#contact">Kontak</a></li>
+    </ul>
+    <a href="#contact" class="btn-primary" style="padding: 8px 20px; font-size: 0.85rem;">Let's Talk</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="about">
+    <div class="hero-content">
+      <div class="badge-tag">
+        <div class="badge-dot"></div>
+        Available for Freelance & Collaboration
+      </div>
+      <h1 class="hero-title">
+        Halo, Saya <br />
+        <span class="glow-text">Nama Anda</span>
+      </h1>
+      <div class="typing-box">
+        Saya seorang <span id="typing-text"></span>
+      </div>
+      <p class="hero-desc">
+        Membangun solusi digital interaktif dengan memadukan estetika desain modern, performa tinggi, dan clean architecture. Senang mengeksplorasi teknologi baru dan tantangan kreatif.
+      </p>
+      <div class="btn-group">
+        <a href="#projects" class="btn-primary">
+          <i class="fa-solid fa-rocket"></i> Lihat Proyek
+        </a>
+        <a href="#contact" class="btn-secondary">
+          <i class="fa-solid fa-paper-plane"></i> Hubungi Saya
+        </a>
+      </div>
     </div>
 
-    <main id="main-portfolio">
-        <div class="container">
-            <header>
-                <div class="photo-container" id="profile-pic-container">
-                    <div class="photo-frame"></div>
-                    <img src="WhatsApp Image 2026-09-03 at 19.41.14.jpeg" alt="Foto Profil" class="profile-img" id="profile-img-element">
-                </div>
-                <p class="click-hint">mau lebih?</p>
-                
-                <h1 class="shining-name">Muhammad Adji Sutan Tsafiuddin</h1>
-                <p>Mahasiswa Rekayasa Sistem Komputer | Web Desainer | Pemula</p>
-            </header>
-
-            <section class="about-section">
-                <h2>Tentang Kuh</h2>
-                <p>Hai keluarga, namaku muhammad adji sutan tsadiuddin bisa di panggil aji, aku tinggal di sungai rengas dan kalau di tanya kenapa aku kuliah di siskom? pertama aku awalnya di suruh orang tua ku karna menurut mereka peluang kerja dibidang IT itu tinggi dan aku juga pengen banggain mereka kan, jadi aku masuk dengan rasa sedikit terpaksa pada awalnya, seiring berjalannya waktu akupun merasa cocok di sini walau nilai ku tidak terlalu bagus, bahkan kalkulus aja ngulang :v, tapi aku akan tetap berusaha demi menggapai mimpi dan cita cita ku sebagai orang yang pandai berbisnis dan juga ahli di bidang IT</p>
-            </section>
-
-            <section>
-                <div class="portfolio-grid">
-                    <div class="portfolio-card">
-                        <img src="https://via.placeholder.com/400x200/1e40af/ffffff?text=Proyek+1" alt="Proyek 1" class="portfolio-img">
-                        <div class="portfolio-content">
-                            <h3>Nama Proyek 1</h3>
-                            <p>Membuat tong sampah otomatis saat smk</p>
-                        </div>
-                    </div>
-                    </div>
-            </section>
+    <!-- Foto Profil dengan Bingkai Neon Berputar -->
+    <div class="hero-image-wrapper">
+      <div class="profile-glow-ring">
+        <div class="profile-img-container">
+          <!-- 
+            GANTI LINK GAMBAR DI BAWAH INI DENGAN FOTO PROFILE ANDA:
+            Contoh lokal: src="foto-profil.jpg" 
+          -->
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=700&q=80" alt="Foto Profil" />
         </div>
-    </main>
+        <div class="floating-badge">
+          <i class="fa-solid fa-code" style="color: var(--primary-cyan);"></i> Tech Enthusiast
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script>
-        // === A. LOGIKA PERPINDAHAN HALAMAN ===
-        const enterBtn = document.getElementById('enter-btn');
-        const introScreen = document.getElementById('intro-screen');
-        const mainPortfolio = document.getElementById('main-portfolio');
+  <!-- Skills Section -->
+  <section id="skills">
+    <div class="section-header">
+      <h2>Keahlian & Teknologi</h2>
+      <p>Peralatan dan bahasa pemrograman yang biasa saya gunakan untuk menyelesaikan masalah.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <i class="fa-brands fa-html5 skill-icon"></i>
+        <h3>Frontend Web</h3>
+        <p>HTML5, CSS3, JavaScript modern, React, dan Tailwind CSS.</p>
+      </div>
+      <div class="skill-card">
+        <i class="fa-solid fa-cube skill-icon"></i>
+        <h3>Creative Dev</h3>
+        <p>Three.js, Canvas API, Interactive GLSL & Animations.</p>
+      </div>
+      <div class="skill-card">
+        <i class="fa-solid fa-server skill-icon"></i>
+        <h3>Backend & DB</h3>
+        <p>Node.js, Express, Python, SQL, dan RESTful API.</p>
+      </div>
+      <div class="skill-card">
+        <i class="fa-solid fa-microchip skill-icon"></i>
+        <h3>System & Logic</h3>
+        <p>C Programming, Algoritma, dan Perancangan Logika Digital.</p>
+      </div>
+    </div>
+  </section>
 
-        enterBtn.addEventListener('click', () => {
-            // FADEOUT Intro
-            introScreen.classList.add('fade-out');
-            // FADEIN Main Content
-            mainPortfolio.classList.add('visible');
-            
-            // Setelah animasi pudar selesai, hapus total intro dari layar (biar ga ngeblok klik)
-            setTimeout(() => {
-                introScreen.style.display = 'none';
-            }, 1000); 
-        });
+  <!-- Projects Section -->
+  <section id="projects">
+    <div class="section-header">
+      <h2>Proyek Pilihan</h2>
+      <p>Kumpulan karya terbaik yang pernah saya rancang dan kembangkan.</p>
+    </div>
+    <div class="projects-grid">
+      
+      <!-- Card Proyek 1 -->
+      <div class="project-card">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" alt="Project 1" />
+        </div>
+        <div class="project-info">
+          <div class="project-tags">
+            <span class="tag">JavaScript</span>
+            <span class="tag">WebGL</span>
+            <span class="tag">Interactive</span>
+          </div>
+          <h3>Interactive Particle System</h3>
+          <p>Simulasi partikel visual interaktif berbasis browser yang merespons pergerakan kursor dan audio visualizer.</p>
+          <div class="project-links">
+            <a href="#"><i class="fa-solid fa-arrow-up-right-from-square"></i> Demo</a>
+            <a href="#"><i class="fa-brands fa-github"></i> Source</a>
+          </div>
+        </div>
+      </div>
 
-        // === B. LOGIKA GANTI FOTO (5 SLOT) ===
-        const photoContainer = document.getElementById('profile-pic-container');
-        const profileImg = document.getElementById('profile-img-element');
+      <!-- Card Proyek 2 -->
+      <div class="project-card">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?auto=format&fit=crop&w=600&q=80" alt="Project 2" />
+        </div>
+        <div class="project-info">
+          <div class="project-tags">
+            <span class="tag">React</span>
+            <span class="tag">Tailwind</span>
+            <span class="tag">API</span>
+          </div>
+          <h3>Modern Dashboard Analytics</h3>
+          <p>Aplikasi dashboard performa dengan grafis data real-time, dark mode elegan, dan integrasi analitik lengkap.</p>
+          <div class="project-links">
+            <a href="#"><i class="fa-solid fa-arrow-up-right-from-square"></i> Demo</a>
+            <a href="#"><i class="fa-brands fa-github"></i> Source</a>
+          </div>
+        </div>
+      </div>
 
-        // Ganti nama file ini sesuai dengan foto-foto yang kamu upload ke GitHub!
-        const imageSlots = [
-            'foto1.jpeg', 
-            'foto2.jpeg', 
-            'foto3.jpeg', 
-            'foto4.jpeg', 
-            'foto5.jpeg'
-        ];
-        let currentPhotoIndex = 0; // Mulai dari foto pertama (index 0)
+      <!-- Card Proyek 3 -->
+      <div class="project-card">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="Project 3" />
+        </div>
+        <div class="project-info">
+          <div class="project-tags">
+            <span class="tag">C / C++</span>
+            <span class="tag">Logic Sim</span>
+          </div>
+          <h3>Digital Logic Circuit Solver</h3>
+          <p>Aplikasi simulasi gerbang logika dan penyederhanaan Karnaugh Map otomatis berbasis pemrosesan algoritma efisien.</p>
+          <div class="project-links">
+            <a href="#"><i class="fa-solid fa-arrow-up-right-from-square"></i> Demo</a>
+            <a href="#"><i class="fa-brands fa-github"></i> Source</a>
+          </div>
+        </div>
+      </div>
 
-        photoContainer.addEventListener('click', () => {
-            // Tambahkan index
-            currentPhotoIndex++;
+    </div>
+  </section>
 
-            // Jika sudah di foto terakhir, kembali ke foto pertama (cycle)
-            if (currentPhotoIndex >= imageSlots.length) {
-                currentPhotoIndex = 0;
-            }
+  <!-- Contact Section -->
+  <section id="contact">
+    <div class="contact-container">
+      <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; margin-bottom: 14px;">Mari Terhubung!</h2>
+      <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto;">
+        Punya ide proyek menarik atau ingin berdiskusi? Jangan ragu untuk menyapa saya melalui media sosial di bawah.
+      </p>
+      <div class="social-links">
+        <a href="https://github.com" target="_blank" class="social-btn" title="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://linkedin.com" target="_blank" class="social-btn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="https://instagram.com" target="_blank" class="social-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="mailto:emailanda@gmail.com" class="social-btn" title="Email"><i class="fa-solid fa-envelope"></i></a>
+      </div>
+    </div>
+  </section>
 
-            // Ganti src foto dengan foto berikutnya
-            profileImg.src = imageSlots[currentPhotoIndex];
-        });
-    </script>
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Nama Anda. Dibuat dengan penuh kreativitas & semarak animasi.</p>
+  </footer>
+
+  <!-- ==================== JAVASCRIPT EFECTS ==================== -->
+  <script>
+    /* 1. EFEK KETIK OTOMATIS (TYPING EFFECT) */
+    const textElement = document.getElementById("typing-text");
+    const words = [
+      "Frontend Developer", 
+      "Computer Science Student", 
+      "Interactive Graphic Creator", 
+      "Problem Solver"
+    ];
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function typeEffect() {
+      const currentWord = words[wordIndex];
+      
+      if (isDeleting) {
+        textElement.textContent = currentWord.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        textElement.textContent = currentWord.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      let typingSpeed = isDeleting ? 40 : 100;
+
+      if (!isDeleting && charIndex === currentWord.length) {
+        typingSpeed = 1800; // Tahan sejenak setelah selesai mengetik satu kata
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        typingSpeed = 400;
+      }
+
+      setTimeout(typeEffect, typingSpeed);
+    }
+    typeEffect();
+
+    /* 2. BACKGROUND PARTIKEL INTERAKTIF MERIAH */
+    const canvas = document.getElementById("particle-canvas");
+    const ctx = canvas.getContext("2d");
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener("resize", () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    const particleCount = Math.floor((width * height) / 14000); // Otomatis menyesuaikan ukuran layar
+
+    const mouse = { x: null, y: null, radius: 140 };
+
+    window.addEventListener("mousemove", (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    window.addEventListener("mouseout", () => {
+      mouse.x = null;
+      mouse.y = null;
+    });
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.size = Math.random() * 2 + 1;
+        this.baseX = this.x;
+        this.baseY = this.y;
+        this.vx = (Math.random() - 0.5) * 0.8;
+        this.vy = (Math.random() - 0.5) * 0.8;
+        this.color = Math.random() > 0.5 ? "rgba(0, 242, 254, " : "rgba(157, 78, 221, ";
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color + "0.8)";
+        ctx.fill();
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Pantul saat kena tepi layar
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+
+        // Interaksi dengan Mouse
+        if (mouse.x !== null && mouse.y !== null) {
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < mouse.radius) {
+            let forceDirectionX = dx / distance;
+            let forceDirectionY = dy / distance;
+            let force = (mouse.radius - distance) / mouse.radius;
+            this.x -= forceDirectionX * force * 3;
+            this.y -= forceDirectionY * force * 3;
+          }
+        }
+      }
+    }
+
+    // Inisialisasi partikel
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Hubungkan garis antar partikel yang berdekatan
+      for (let a = 0; a < particles.length; a++) {
+        for (let b = a + 1; b < particles.length; b++) {
+          let dx = particles[a].x - particles[b].x;
+          let dy = particles[a].y - particles[b].y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 110) {
+            let opacity = 1 - (dist / 110);
+            ctx.strokeStyle = `rgba(0, 242, 254, ${opacity * 0.25})`;
+            ctx.lineWidth = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(particles[a].x, particles[a].y);
+            ctx.lineTo(particles[b].x, particles[b].y);
+            ctx.stroke();
+          }
+        }
+        particles[a].update();
+        particles[a].draw();
+      }
+
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+  </script>
 </body>
 </html>
